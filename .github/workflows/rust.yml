@@ -1,0 +1,21 @@
+name: Rust
+
+on:
+  release:
+    types: [created]
+    
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@master
+    - name: Compile and release
+      run: cargo build --verbose
+      uses: rust-build/rust-build.action@v1.3.2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        RUSTTARGET: ${{ matrix.target }}
+        EXTRA_FILES: 'README.md LICENSE'
